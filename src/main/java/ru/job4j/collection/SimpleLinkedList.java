@@ -53,7 +53,6 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
     public Iterator<E> iterator() {
         return new Iterator<E>() {
             private final int expectedModCount = modCount;
-            private int count = 0;
             Node<E> point = first;
 
             @Override
@@ -61,7 +60,7 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                return count < size;
+                return size >= 0;
             }
 
             @Override
@@ -69,12 +68,11 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                if (count == 0) {
+                if (size == 0) {
                     point = first;
                 } else {
                     point = point.next;
                 }
-                count++;
                 return point.item;
             }
         };
