@@ -54,7 +54,7 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
         return new Iterator<E>() {
             private final int expectedModCount = modCount;
             private int count = 0;
-            Node<E> meaning;
+            Node<E> point = first;
 
             @Override
             public boolean hasNext() {
@@ -70,12 +70,12 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
                     throw new NoSuchElementException();
                 }
                 if (count == 0) {
-                    meaning = first;
+                    point = first;
                 } else {
-                    meaning = meaning.next;
+                    point = point.next;
                 }
                 count++;
-                return meaning.item;
+                return point.item;
             }
         };
     }
