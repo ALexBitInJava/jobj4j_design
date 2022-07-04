@@ -12,7 +12,10 @@ public class SimpleArrayList<T> implements SimpleList<T> {
     }
 
     public void increase() {
-        container = Arrays.copyOf(container, container.length * 2);
+        if (container.length > 0) {
+            container = Arrays.copyOf(container, container.length * 2);
+        }
+        container = Arrays.copyOf(container, container.length + 1);
     }
     @Override
     public void add(T value) {
