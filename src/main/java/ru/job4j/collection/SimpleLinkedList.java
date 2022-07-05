@@ -57,19 +57,19 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
 
             @Override
             public boolean hasNext() {
-                    return point != null && size > 0;
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
+                    return point != null;
             }
 
             @Override
             public E next() {
-                if (expectedModCount != modCount) {
-                    throw new ConcurrentModificationException();
-                }
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
                 Node<E> two = point;
-                point = two.next;
+                point = point.next;
                 return two.item;
             }
         };
