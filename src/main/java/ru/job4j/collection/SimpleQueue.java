@@ -9,7 +9,7 @@ public class SimpleQueue<T> {
     private int changesOut = 0;
 
     public T poll() {
-        if (changesIn == 0) {
+        if (changesIn == 0 && changesOut == 0) {
             throw new NoSuchElementException();
         }
         if (changesOut == 0) {
