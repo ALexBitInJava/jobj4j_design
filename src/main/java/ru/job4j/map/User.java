@@ -16,29 +16,29 @@ public class User {
         this.name = name;
         this.children = children;
         this.birthday = birthday;
+
     }
 
     public static void main(String[] args) {
-        User us1 = new User("Alex", 1, new GregorianCalendar(2000, Calendar.JANUARY, 1));
-        User us2 = new User("Alex", 1, new GregorianCalendar(2000, Calendar.JANUARY, 1));
-        Map<User, Object> map1 = new HashMap<>();
-        map1.put(us1, new Object());
-        map1.put(us2, new Object());
-        System.out.println(map1.get(us1).hashCode());
-        System.out.println(hash(map1.get(us1)));
-        System.out.println(us1.hashCode());
+        User user1 = new User("Alex", 1, new GregorianCalendar(2000, Calendar.JANUARY, 1));
+        User user2 = new User("Alex", 1, new GregorianCalendar(2000, Calendar.JANUARY, 1));
+        Map<User, Object> map1 = new HashMap<>(16);
+        map1.put(user2, new Object());
+        map1.put(user1, new Object());
 
-        System.out.println(map1.get(us2).hashCode());
-        System.out.println(hash(map1.get(us2)));
-        System.out.println(us2.hashCode());
+        int hash1 = (user1.hashCode() ^ (user1.hashCode() >>> 16));
+        int hash2 = (user2.hashCode() ^ (user2.hashCode() >>> 16));
 
-        int i1 = hash(map1.get(us1).hashCode()) & (map1.size() - 1);
-        System.out.println(i1);
-        int i2 = hash(map1.get(us2).hashCode()) & (map1.size() - 1);
-        System.out.println(i2);
-        System.out.println("--------------");
+        System.out.println("Результат расчёта hash() для user1: " + hash1);
+        System.out.println("Результат расчёта hash() для user1: " + hash2);
+
+        int backet1 = hash1 & (16 - 1);
+        int backet2 = hash2 & (16 - 1);
+        System.out.println("Бакет для user1: " + backet1);
+        System.out.println("Бакет для user2: " + backet2);
         for (Map.Entry<User, Object> s : map1.entrySet()) {
             System.out.println(s);
         }
     }
+
 }
