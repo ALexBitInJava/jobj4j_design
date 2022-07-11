@@ -3,6 +3,7 @@ package ru.job4j.map;
 import junit.framework.TestCase;
 import org.junit.Test;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 import static org.hamcrest.Matchers.is;
@@ -42,16 +43,50 @@ public class SimpleMapTest {
     }
 
     @Test
-    public void whenExistToFalse() {
+    public void whenRemoveValue() {
         SimpleMap<Integer, String> test1 = new SimpleMap<>();
         test1.put(1, "Tom");
         test1.put(2, "Bob");
         test1.put(3, "Jon");
         assertTrue(test1.remove(1));
-
     }
 
     @Test
-    public void testIterator() {
+    public void whenDoNotRemoveValue() {
+        SimpleMap<Integer, String> test1 = new SimpleMap<>();
+        test1.put(1, "Tom");
+        test1.put(2, "Bob");
+        test1.put(3, "Jon");
+        assertFalse(test1.remove(4));
+    }
+
+    @Test
+    public void whenHasNextValue() {
+        SimpleMap<Integer, String> test1 = new SimpleMap<>();
+        test1.put(1, "Tom");
+        test1.put(2, "Bob");
+        Iterator<Integer> iterator = test1.iterator();
+        iterator.next();
+        assertTrue(iterator.hasNext());
+    }
+
+    @Test
+    public void whenNoNextValue() {
+        SimpleMap<Integer, String> test1 = new SimpleMap<>();
+        test1.put(1, "Tom");
+        Iterator<Integer> iterator = test1.iterator();
+        assertTrue(iterator.hasNext());
+        iterator.next();
+        assertFalse(iterator.hasNext());
+        /* здесь какая - то ошибка, не могу разобраться*/
+    }
+
+    @Test(expected = ConcurrentModificationException.class)
+    public void whenAfterRemoveGetConcurrentModificationException() {
+        SimpleMap<Integer, String> simpleMap = new SimpleMap<>();
+        simpleMap.put(1, "Tom");
+        Iterator<Integer> iterator = simpleMap.iterator();
+        simpleMap.remove(1);
+        iterator.hasNext();
     }
 }

@@ -35,32 +35,6 @@ public class SimpleMap<K, V> implements Map<K, V> {
         return hashCode ^ hashCode >>> 16;
     }
 
-    private int indexFor(int hash) {
-        return hash & (capacity - 1);
-    }
-
-    private void expand() {
-        MapEntry<K, V>[] table2 = table;
-        int cap = capacity * 2;
-        table2 = new MapEntry[cap];
-        int i = 0;
-        while (i < capacity) {
-            if (table2[i] != null) {
-                put(table2[i].key, table2[i].value);
-            }
-            i++;
-        }
-    }
-
-    @Override
-    public V get(K key) {
-        int i  = indexFor(hash(key.hashCode()));
-        if (table[i] != null && Objects.equals(table[i].key, key)) {
-            return table[i].value;
-        }
-        return null;
-    }
-
     @Override
     public boolean remove(K key) {
         boolean rsl = false;
@@ -83,10 +57,12 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                while (table[counter] == null && counter < capacity - 1) {
-                    counter++;
+                int c = counter;
+                while (c < capacity - 1 && table[c] == null) {
+                    c++;
+                    counter = c;
                 }
-                return counter < capacity;
+                return c < capacity;
             }
 
             @Override
@@ -99,6 +75,15 @@ public class SimpleMap<K, V> implements Map<K, V> {
         };
     }
 
+    @Override
+    public V get(K key) {
+        int i  = indexFor(hash(key.hashCode()));
+        if (table[i] != null && Objects.equals(table[i].key, key)) {
+            return table[i].value;
+        }
+        return null;
+    }
+
     private static class MapEntry<K, V> {
 
         K key;
@@ -107,6 +92,23 @@ public class SimpleMap<K, V> implements Map<K, V> {
         public MapEntry(K key, V value) {
             this.key = key;
             this.value = value;
+        }
+    }
+
+    private int indexFor(int hash) {
+        return hash & (capacity - 1);
+    }
+
+    private void expand() {
+        MapEntry<K, V>[] table2 = table;
+        int cap = capacity * 2;
+        table2 = new MapEntry[cap];
+        int i = 0;
+        while (i < capacity) {
+            if (table2[i] != null) {
+                put(table2[i].key, table2[i].value);
+            }
+            i++;
         }
     }
 }
