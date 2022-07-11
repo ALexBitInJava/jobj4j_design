@@ -3,6 +3,7 @@ package ru.job4j.map;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class SimpleMap<K, V> implements Map<K, V> {
 
@@ -18,6 +19,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean put(K key, V value) {
+        int hash = key.hashCode();
+        hash = (hash >>> 16) ^ hash;
+        int index = hash & (capacity - 1);
         return false;
     }
 
@@ -35,6 +39,10 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public V get(K key) {
+        int i = indexFor(hash(key.hashCode()));
+        if (table[i] != null & key.equals(table[i])) {
+            return table[i].value;
+        }
         return null;
     }
 
