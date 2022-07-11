@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
@@ -80,12 +81,19 @@ public class SimpleMapTest {
         assertFalse(iterator.hasNext());
     }
 
-    @Test(expected = ConcurrentModificationException.class)
+    @Test(expected = NoSuchElementException.class)
     public void whenAfterRemoveGetConcurrentModificationException() {
         SimpleMap<Integer, String> simpleMap = new SimpleMap<>();
-        simpleMap.put(1, "Tom");
         Iterator<Integer> iterator = simpleMap.iterator();
-        simpleMap.remove(1);
-        iterator.hasNext();
+        iterator.next();
+    }
+
+    @Test(expected = ConcurrentModificationException.class)
+    public void whenNextReturnConcurrentModificationException() {
+        SimpleMap<Integer, String> simpleMap = new SimpleMap<>();
+
+        Iterator<Integer> iterator = simpleMap.iterator();
+        simpleMap.put(1, "Tom");
+        iterator.next();
     }
 }
