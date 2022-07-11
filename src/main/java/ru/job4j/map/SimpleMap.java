@@ -45,7 +45,18 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean remove(K key) {
-        return false;
+        boolean rsl = false;
+        int i = indexFor(hash(key.hashCode()));
+        if (table[i] != null & Objects.equals(table[i].key, key)) {
+            table[i].key = null;
+            table[i].value = null;
+
+            modCount++;
+            count--;
+
+            rsl = true;
+        }
+        return rsl;
     }
 
     @Override
