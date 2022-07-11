@@ -57,12 +57,10 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                int c = counter;
-                while (c < capacity - 1 && table[c] == null) {
-                    c++;
-                    counter = c;
+                while (counter < capacity - 1 && table[counter] == null) {
+                    counter++;
                 }
-                return c < capacity;
+                return counter < capacity - 1;
             }
 
             @Override

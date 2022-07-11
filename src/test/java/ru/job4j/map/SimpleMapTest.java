@@ -78,7 +78,6 @@ public class SimpleMapTest {
         assertTrue(iterator.hasNext());
         iterator.next();
         assertFalse(iterator.hasNext());
-        /* здесь какая - то ошибка, не могу разобраться*/
     }
 
     @Test(expected = ConcurrentModificationException.class)
