@@ -19,14 +19,11 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean put(K key, V value) {
-        int hash = key.hashCode();
-        hash = (hash >>> 16) ^ hash;
-        int index = hash & (capacity - 1);
         return false;
     }
 
     private int hash(int hashCode) {
-        return hashCode ^ hashCode >>> 16;
+        return hashCode ^ (hashCode >>> 16);
     }
 
     private int indexFor(int hash) {
@@ -39,8 +36,8 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public V get(K key) {
-        int i = indexFor(hash(key.hashCode()));
-        if (table[i] != null & key.equals(table[i])) {
+        int i  = indexFor(hash(key.hashCode()));
+        if (table[i] != null && Objects.equals(table[i].key, key)) {
             return table[i].value;
         }
         return null;
@@ -54,15 +51,14 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public Iterator<K> iterator() {
         return new Iterator<K>() {
-            private int expectedModCount = modCount;
+            private final int expectedModCount = modCount;
             private int counter = 0;
-
             @Override
             public boolean hasNext() {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                while (count < capacity && table[counter] == null) {
+                while (table[counter] == null && counter < capacity - 1) {
                     counter++;
                 }
                 return counter < capacity;
@@ -73,7 +69,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return table[counter].key;
+                return table[counter++].key;
             }
         };
     }
@@ -87,7 +83,5 @@ public class SimpleMap<K, V> implements Map<K, V> {
             this.key = key;
             this.value = value;
         }
-
     }
-
 }
