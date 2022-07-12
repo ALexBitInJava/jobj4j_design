@@ -94,6 +94,7 @@ public class SimpleMapTest {
 
         Iterator<Integer> iterator = simpleMap.iterator();
         simpleMap.put(1, "Tom");
+        simpleMap.remove(1);
         iterator.next();
     }
 }
