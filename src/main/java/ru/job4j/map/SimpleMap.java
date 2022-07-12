@@ -42,9 +42,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
         int i = indexFor(hash(key.hashCode()));
         boolean rsl = false;
         if (table[i] != null && Objects.equals(table[i].key.hashCode(), key.hashCode()) && Objects.equals(table[i].key, key)) {
-            table[i] = null;
             table[i].key = null;
             table[i].value = null;
+            table[i] = null;
             count--;
             modCount++;
             rsl = true;
