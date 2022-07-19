@@ -7,7 +7,13 @@ public class Analizy {
         try (BufferedReader reader = new BufferedReader(new FileReader(source));
              PrintWriter out = new PrintWriter(new FileOutputStream(target))) {
             StringBuilder log = new StringBuilder();
-            reader.lines().forEach(s -> checkFlag(log, s));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] array = line.split(" ");
+                if ("400".equals(array[0]) || "500".equals(array[0])) {
+                    log.append(array[1]).append(";");
+                }
+            }
             out.println(log);
         }
     }
