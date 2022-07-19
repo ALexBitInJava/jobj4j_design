@@ -18,7 +18,6 @@ public class LogFilter {
         return log404;
     }
 
-
     public static void save(List<String> log, String file) {
         try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(file)))) {
             log.forEach(out::println);
