@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
@@ -16,23 +17,16 @@ public class Config {
 
     public void load() {
         try (BufferedReader read = new BufferedReader(new FileReader(this.path))) {
-            read.lines()
-                    .filter(s -> {
-                        if (!s.startsWith("#") && s.contains("=")) {
-                            throw new IllegalArgumentException();
-                        }
-                        return true;
-                    })
-                    .filter(s -> {
-                        if (!s.startsWith("=") && (s.lastIndexOf("=") != (s.length() - 1))) {
-                            throw new IllegalArgumentException("");
-                        }
-                        return true;
-                    })
-                    .forEach(s -> {
-                        String[] strings = s.split("=", 2);
-                        values.put(strings[0], strings[1]);
-                    });
+            List<String> strings = read.lines().toList();
+            for (String s : strings) {
+                if (!s.isBlank() && !s.startsWith("#")) {
+                    String[] strings1 = s.split("=", 2);
+                    if (strings1.length < 2) {
+                        throw new IllegalArgumentException("");
+                    }
+                    values.put(strings1[0], strings1[1]);
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
