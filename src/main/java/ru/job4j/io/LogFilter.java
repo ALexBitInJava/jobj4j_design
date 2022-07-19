@@ -1,10 +1,10 @@
 package ru.job4j.io;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.io.IOException;
 
 public class LogFilter {
     public static List<String> filter(String file) {
@@ -13,7 +13,7 @@ public class LogFilter {
             log404 = bufferedReader.lines()
                     .filter(b -> "404".equals(b.split(" ")[b.split(" ").length - 2]))
                     .collect(Collectors.toList());
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return log404;
