@@ -17,24 +17,22 @@ public class Config {
     public void load() {
         try (BufferedReader read = new BufferedReader(new FileReader(this.path))) {
             read.lines()
-                    .filter(s -> !s.isEmpty() && !s.startsWith("#"))
                     .filter(s -> {
-                        if (s.contains("=")) {
-                            throw new IllegalArgumentException("The string does not contain the \"=\" sign");
-                        }
-                        if (!s.startsWith("=")) {
-                            throw new IllegalArgumentException("The string starts with \"=\" sign");
+                        if (!s.startsWith("#") && s.contains("=")) {
+                            throw new IllegalArgumentException();
                         }
                         return true;
                     })
-                    .map(s -> s.split("=", 2))
                     .filter(s -> {
-                        if (s[0].isEmpty() || s[1].isEmpty()) {
-                            throw new IllegalArgumentException("The first occurrence of the \"=\" character is the last character in the string");
+                        if (!s.startsWith("=") && (s.lastIndexOf("=") != (s.length() - 1))) {
+                            throw new IllegalArgumentException("");
                         }
                         return true;
                     })
-                    .forEach(strings -> values.put(strings[0], strings[1]));
+                    .forEach(s -> {
+                        String[] strings = s.split("=", 2);
+                        values.put(strings[0], strings[1]);
+                    });
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,6 +54,8 @@ public class Config {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Config("app.properties"));
+        Config config = new Config("app.properties");
+        config.load();
+        System.out.println(config.values);
     }
 }
