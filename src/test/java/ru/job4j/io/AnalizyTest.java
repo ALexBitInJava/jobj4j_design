@@ -41,7 +41,7 @@ public class AnalizyTest {
     public void testUnavailable2() throws IOException {
         File source = folder2.newFile("server1.log");
         File target = folder2.newFile("unavailable.csv");
-        try (PrintWriter out = new PrintWriter(source)){
+        try (PrintWriter out = new PrintWriter(source)) {
             out.println("""
                     200 10:56:01
                     500 10:57:01
@@ -52,7 +52,7 @@ public class AnalizyTest {
         }
         Analizy.unavailable(source.getAbsolutePath(), target.getAbsolutePath());
         StringBuilder rsl = new StringBuilder();
-        try (BufferedReader in = new BufferedReader(new FileReader(target))){
+        try (BufferedReader in = new BufferedReader(new FileReader(target))) {
             in.lines().forEach(rsl::append);
         }
         assertThat(rsl.toString(), is("10:57:01;11:02:02;"));
