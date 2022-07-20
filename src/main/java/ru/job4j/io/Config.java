@@ -21,8 +21,8 @@ public class Config {
             for (String s : strings) {
                 if (!s.isBlank() && !s.startsWith("#")) {
                     String[] strings1 = s.split("=", 2);
-                    if (strings1.length < 2) {
-                        throw new IllegalArgumentException("");
+                    if (strings1.length < 2 || strings1[0].isBlank() || strings1[1].isBlank()) {
+                        throw new IllegalArgumentException();
                     }
                     values.put(strings1[0], strings1[1]);
                 }
