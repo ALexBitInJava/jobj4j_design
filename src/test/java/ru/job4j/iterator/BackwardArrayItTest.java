@@ -8,8 +8,8 @@ public class BackwardArrayItTest {
     @Test
     public void whenMultiCallHasNextThenTrue() {
         BackwardArrayIt it = new BackwardArrayIt(new int[] {1, 2, 3});
-        assertThat(it.hasNext()). isTrue();
-        assertThat(it.hasNext()). isTrue();
+        assertThat(it.hasNext()).isTrue();
+        assertThat(it.hasNext()).isTrue();
     }
 
     @org.junit.jupiter.api.Test
