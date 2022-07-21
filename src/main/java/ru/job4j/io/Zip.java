@@ -21,6 +21,21 @@ public class Zip {
         }
     }
 
+    public static ArgsName zipValidation(String[] args) {
+        if (args.length < 3) {
+            throw new IllegalArgumentException("Здесь должно быть не меньше 3 элементов");
+        }
+        ArgsName argsName = ArgsName.of(args);
+        if (!argsName.get("e").startsWith(".")) {
+            throw new IllegalArgumentException("Не начинается с точки");
+        }
+        if (!Path.of(argsName.get("d")).toFile().isDirectory()) {
+            throw new IllegalArgumentException("Директория не существует");
+        }
+
+        return argsName;
+    }
+
     public void packSingleFile(File source, File target) {
         try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
             zip.putNextEntry(new ZipEntry(source.getPath()));
@@ -34,9 +49,6 @@ public class Zip {
 
     public static void main(String[] args) {
         Zip zip = new Zip();
-        zip.packSingleFile(
-                new File("./pom.xml"),
-                new File("./pom.zip")
-        );
+        zip.packSingleFile(new File("./pom.xml"), new File("./pom.zip"));
     }
 }
