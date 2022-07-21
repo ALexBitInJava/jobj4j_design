@@ -9,7 +9,7 @@ public class ArgsName {
 
     public String get(String key) {
         if (!values.containsKey(key)) {
-            throw new IllegalArgumentException("The method has no arguments");
+            throw new IllegalArgumentException("The array of Args is empty");
         }
         return values.get(key);
     }
@@ -17,9 +17,6 @@ public class ArgsName {
     private void parse(String[] args) {
         Arrays.stream(args)
                 .peek(s -> {
-                    if (s.length() == 0) {
-                        throw new IllegalArgumentException("There are no arguments");
-                    }
                     if ((s.endsWith("=") && s.split("=").length == 1)
                             || !s.contains("=")
                             || !s.startsWith("-")
@@ -33,7 +30,9 @@ public class ArgsName {
     }
 
     public static ArgsName of(String[] args) {
-
+        if (args.length == 0) {
+            throw new IllegalArgumentException("The array of Args is empty");
+        }
         ArgsName names = new ArgsName();
         names.parse(args);
         return names;
