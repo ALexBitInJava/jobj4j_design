@@ -22,11 +22,12 @@ public class Search {
     }
 
     private static String[] validateData(String[] args) {
-        if (!args[1].startsWith(".")) {
-            throw new IllegalArgumentException("The file must start with the character \".\"");
-        }
+
         if (args.length != 2) {
             throw new IllegalArgumentException("Root folder is null. Usage java -jar search.jar.");
+        }
+        if (!args[1].startsWith(".")) {
+            throw new IllegalArgumentException("The file must start with the character \".\"");
         }
         Path start = Paths.get(args[0]);
         if (!start.toFile().exists()) {
