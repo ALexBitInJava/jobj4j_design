@@ -1,100 +1,124 @@
 package ru.job4j.map;
 
-import junit.framework.TestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import java.util.*;
+import static org.assertj.core.api.Assertions.*;
 
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+class SimpleMapTest {
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+    private final SimpleMap<Integer, String> map = new SimpleMap<>();
 
-public class SimpleMapTest {
-
-    @Test
-    public void whenPutReturnTrue() {
-        SimpleMap<Integer, String> simpleMap = new SimpleMap<>();
-        assertTrue(simpleMap.put(1, "Tom"));
-        assertThat(simpleMap.get(1), is("Tom"));
+    @BeforeEach
+    void setUp() {
+        map.put(1, "1");
+        map.put(2, "2");
+        map.put(3, "3");
+        map.put(4, "4");
     }
 
     @Test
-    public void whenPutAndDoNotChange() {
-        SimpleMap<Integer, String> simpleMap = new SimpleMap<>();
-        simpleMap.put(1, "Tom");
-        assertFalse(simpleMap.put(1, "Jon"));
-        assertThat(simpleMap.get(1), is("Tom"));
+    void checkSimpleIterator() {
+        assertThat(map).hasSize(4);
     }
 
     @Test
-    public void whenNotExistGetReturnNull() {
-    SimpleMap<Integer, String> stringSimpleMap = new SimpleMap<>();
-    stringSimpleMap.put(1, "Tom");
-    stringSimpleMap.put(3, "Jon");
-    assertNull(stringSimpleMap.get(2));
+    void whenCheckGet() {
+        assertThat(map.get(1)).isEqualTo("1");
+        assertThat(map).hasSize(4);
+        assertThat(map.get(5)).isNull();
+        assertThat(map).hasSize(4);
     }
 
     @Test
-    public void whenNotExistGetReturnValue() {
-        SimpleMap<Integer, String> stringSimpleMap = new SimpleMap<>();
-        stringSimpleMap.put(1, "Tom");
-        stringSimpleMap.put(2, "Jon");
-        assertThat(stringSimpleMap.get(1), is("Tom"));
+    void whenCheckPut() {
+        assertThat(map.put(0, "0")).isTrue();
+        assertThat(map).hasSize(5);
+        assertThat(map.put(8, "8")).isFalse();
+        assertThat(map).hasSize(5);
+        assertThat(map.put(1, "10")).isFalse();
+        assertThat(map.get(1)).isEqualTo("1");
+        assertThat(map).hasSize(5);
     }
 
     @Test
-    public void whenRemoveValue() {
-        SimpleMap<Integer, String> test1 = new SimpleMap<>();
-        test1.put(1, "Tom");
-        test1.put(2, "Bob");
-        test1.put(3, "Jon");
-        assertTrue(test1.remove(1));
+    void whenCheckRemove() {
+        assertThat(map.remove(2)).isTrue();
+        assertThat(map).hasSize(3);
+        assertThat(map.remove(2)).isFalse();
+        assertThat(map).hasSize(3);
+        assertThat(map.remove(5)).isFalse();
+        assertThat(map).hasSize(3);
     }
 
     @Test
-    public void whenDoNotRemoveValue() {
-        SimpleMap<Integer, String> test1 = new SimpleMap<>();
-        test1.put(1, "Tom");
-        test1.put(2, "Bob");
-        test1.put(3, "Jon");
-        assertFalse(test1.remove(4));
+    void whenCheckIterator() {
+        map.remove(2);
+        map.remove(3);
+        map.put(null, "0000");
+        Iterator<Integer> it = map.iterator();
+        assertThat(it.hasNext()).isTrue();
+        assertThat(it.next()).isNull();
+        assertThat(it.next()).isEqualTo(1);
+        assertThat(it.next()).isEqualTo(4);
+        assertThat(it.hasNext()).isFalse();
+        assertThatThrownBy(it::next)
+                .isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
-    public void whenHasNextValue() {
-        SimpleMap<Integer, String> test1 = new SimpleMap<>();
-        test1.put(1, "Tom");
-        test1.put(2, "Bob");
-        Iterator<Integer> iterator = test1.iterator();
-        iterator.next();
-        assertTrue(iterator.hasNext());
+    void whenConcurrentIteratorAdd() {
+        Iterator<Integer> it = map.iterator();
+        map.put(0, "0");
+        assertThatThrownBy(it::hasNext)
+                .isInstanceOf(ConcurrentModificationException.class);
     }
 
     @Test
-    public void whenNoNextValue() {
-        SimpleMap<Integer, String> test1 = new SimpleMap<>();
-        test1.put(1, "Tom");
-        Iterator<Integer> iterator = test1.iterator();
-        assertTrue(iterator.hasNext());
-        iterator.next();
-        assertFalse(iterator.hasNext());
+    void whenConcurrentIteratorRemove() {
+        Iterator<Integer> it = map.iterator();
+        map.remove(1);
+        assertThatThrownBy(it::hasNext)
+                .isInstanceOf(ConcurrentModificationException.class);
     }
 
-    @Test(expected = NoSuchElementException.class)
-    public void whenAfterRemoveGetConcurrentModificationException() {
-        SimpleMap<Integer, String> simpleMap = new SimpleMap<>();
-        Iterator<Integer> iterator = simpleMap.iterator();
-        iterator.next();
+    @Test
+    void whenNotConcurrentIteratorGet() {
+        Iterator<Integer> it = map.iterator();
+        map.get(1);
+        assertThat(it.hasNext()).isTrue();
     }
 
-    @Test(expected = ConcurrentModificationException.class)
-    public void whenNextReturnConcurrentModificationException() {
-        SimpleMap<Integer, String> simpleMap = new SimpleMap<>();
+    @Test
+    void whenMapExpand() {
+        map.put(null, "0000");
+        assertThat(map.put(15, "15")).isTrue();
+        assertThat(map).hasSize(6);
+        assertThat(map.put(8, "8")).isTrue();
+        assertThat(map.put(16, "16")).isFalse();
+        assertThat(map.get(4)).isEqualTo("4");
+        assertThat(map.get(8)).isEqualTo("8");
+        assertThat(map.get(15)).isEqualTo("15");
+        assertThat(map).hasSize(7).contains(null, 1, 2, 3, 4, 8, 15);
+    }
 
-        Iterator<Integer> iterator = simpleMap.iterator();
-        simpleMap.put(1, "Tom");
-        simpleMap.remove(1);
-        iterator.next();
+    @Test
+    void whenCheckPutKeyNull() {
+        assertThat(map.put(null, "0000")).isTrue();
+        assertThat(map).hasSize(5);
+    }
+
+    @Test
+    void whenCheckGetKeyNull() {
+        map.put(null, "0000");
+        assertThat(map.get(null)).isEqualTo("0000");
+        assertThat(map).hasSize(5);
+    }
+
+    @Test
+    void whenCheckRemoveKeyNull() {
+        map.put(null, "0000");
+        assertThat(map.remove(null)).isTrue();
+        assertThat(map).hasSize(4);
     }
 }

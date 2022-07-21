@@ -1,91 +1,92 @@
 package ru.job4j.collection;
 
-import org.hamcrest.core.Is;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import java.util.Iterator;
-import static org.junit.Assert.*;
 
-public class SimpleLinkedListTest {
+class SimpleLinkedListTest {
 
-    @Test
-    public void whenAddAndGet() {
-        LinkedList<Integer> list = new SimpleLinkedList<>();
+    private LinkedList<Integer> list;
+
+    @BeforeEach
+    public void initData() {
+        list = new SimpleLinkedList<>();
         list.add(1);
         list.add(2);
+    }
+
+    @Test
+    void checkIteratorSimple() {
+        assertThat(list).hasSize(2);
         list.add(3);
         list.add(4);
-        assertThat(list.get(0), Is.is(1));
-        assertThat(list.get(1), Is.is(2));
-        assertThat(list.get(2), Is.is(3));
-        assertThat(list.get(3), Is.is(4));
-    }
-
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void whenGetFromOutOfBoundThenExceptionThrown() {
-        LinkedList<Integer> list = new SimpleLinkedList<>();
-        list.add(1);
-        list.add(2);
-        list.get(2);
+        assertThat(list).hasSize(4);
     }
 
     @Test
-    public void whenAddIterHasNextTrue() {
-        LinkedList<Integer> list = new SimpleLinkedList<>();
-        list.add(1);
+    void whenAddAndGet() {
+        list.add(3);
+        list.add(4);
+        assertThat(list.get(0)).isEqualTo(1);
+        assertThat(list.get(1)).isEqualTo(2);
+        assertThat(list.get(2)).isEqualTo(3);
+        assertThat(list.get(3)).isEqualTo(4);
+    }
+
+    @Test
+    void whenGetFromOutOfBoundThenExceptionThrown() {
+        assertThatThrownBy(() -> list.get(2))
+                .isInstanceOf(IndexOutOfBoundsException.class);
+    }
+
+    @Test
+    void whenAddIterHasNextTrue() {
         Iterator<Integer> it = list.iterator();
-        assertThat(it.hasNext(), Is.is(true));
+        assertThat(it.hasNext()).isTrue();
     }
 
     @Test
-    public void whenAddIterNextOne() {
-        LinkedList<Integer> list = new SimpleLinkedList<>();
-        list.add(1);
+    void whenAddIterNextOne() {
         Iterator<Integer> it = list.iterator();
-        assertThat(it.next(), Is.is(1));
+        assertThat(it.next()).isEqualTo(1);
     }
 
     @Test
-    public void whenEmptyIterHashNextFalse() {
+    void whenEmptyIterHashNextFalse() {
         LinkedList<Integer> list = new SimpleLinkedList<>();
         Iterator<Integer> it = list.iterator();
-        assertThat(it.hasNext(), Is.is(false));
+        assertThat(it.hasNext()).isFalse();
     }
 
     @Test
-    public void whenAddIterMultiHasNextTrue() {
-        LinkedList<Integer> list = new SimpleLinkedList<>();
-        list.add(1);
+    void whenAddIterMultiHasNextTrue() {
         Iterator<Integer> it = list.iterator();
-        assertThat(it.hasNext(), Is.is(true));
-        assertThat(it.hasNext(), Is.is(true));
+        assertThat(it.hasNext()).isTrue();
+        assertThat(it.hasNext()).isTrue();
     }
 
     @Test
-    public void whenAddIterNextOneNextTwo() {
-        LinkedList<Integer> list = new SimpleLinkedList<>();
-        list.add(1);
-        list.add(2);
+    void whenAddIterNextOneNextTwo() {
         Iterator<Integer> it = list.iterator();
-        assertThat(it.next(), Is.is(1));
-        assertThat(it.next(), Is.is(2));
+        assertThat(it.next()).isEqualTo(1);
+        assertThat(it.next()).isEqualTo(2);
     }
 
     @Test
-    public void whenGetIteratorTwiceThenEveryFromBegin() {
-        LinkedList<Integer> list = new SimpleLinkedList<>();
-        list.add(1);
-        list.add(2);
+    void whenGetIteratorTwiceThenEveryFromBegin() {
         Iterator<Integer> first = list.iterator();
-        assertThat(first.hasNext(), Is.is(true));
-        assertThat(first.next(), Is.is(1));
-        assertThat(first.hasNext(), Is.is(true));
-        assertThat(first.next(), Is.is(2));
-        assertThat(first.hasNext(), Is.is(false));
+        assertThat(first.hasNext()).isTrue();
+        assertThat(first.next()).isEqualTo(1);
+        assertThat(first.hasNext()).isTrue();
+        assertThat(first.next()).isEqualTo(2);
+        assertThat(first.hasNext()).isFalse();
         Iterator<Integer> second = list.iterator();
-        assertThat(second.hasNext(), Is.is(true));
-        assertThat(second.next(), Is.is(1));
-        assertThat(second.hasNext(), Is.is(true));
-        assertThat(second.next(), Is.is(2));
-        assertThat(second.hasNext(), Is.is(false));
+        assertThat(second.hasNext()).isTrue();
+        assertThat(second.next()).isEqualTo(1);
+        assertThat(second.hasNext()).isTrue();
+        assertThat(second.next()).isEqualTo(2);
+        assertThat(second.hasNext()).isFalse();
     }
 }

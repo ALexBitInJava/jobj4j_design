@@ -1,32 +1,24 @@
 package ru.job4j.iterator;
 
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.Matchers.is;
-
 import org.junit.Test;
 
-import java.util.NoSuchElementException;
-
+import static org.assertj.core.api.Assertions.assertThat;
 public class BackwardArrayItTest {
 
     @Test
     public void whenMultiCallHasNextThenTrue() {
         BackwardArrayIt it = new BackwardArrayIt(new int[] {1, 2, 3});
-        assertThat(it.hasNext(), is(true));
-        assertThat(it.hasNext(), is(true));
+        assertThat(it.hasNext()). isTrue();
+        assertThat(it.hasNext()). isTrue();
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void whenReadSequence() {
-        BackwardArrayIt it = new BackwardArrayIt(new int[] {1, 2, 3});
-        assertThat(it.next(), is(3));
-        assertThat(it.next(), is(2));
-        assertThat(it.next(), is(1));
-    }
-
-    @Test(expected = NoSuchElementException.class)
-    public void whenNextFromEmpty() {
-        BackwardArrayIt it = new BackwardArrayIt(new int[] {});
-        it.next();
+        ArrayIt it = new ArrayIt(
+                new int[] {1, 2, 3}
+        );
+        assertThat(it.next()).isEqualTo(1);
+        assertThat(it.next()).isEqualTo(2);
+        assertThat(it.next()).isEqualTo(3);
     }
 }
