@@ -9,10 +9,9 @@ import java.util.function.Predicate;
 
 public class Search {
     public static void main(String[] args) throws IOException {
-        Path start = Paths.get(".");
-        search(start, p -> p.toFile().getName().endsWith(".js")).forEach(System.out::println);
-        search(start, path -> path.toString()
-                .contains("\\main\\java\\ru\\job4j\\io"))
+        String[] strings = validateData(args);
+        Path start = Paths.get(strings[0]);
+        search(start, p -> p.toFile().getName().endsWith(strings[1]))
                 .forEach(System.out::println);
     }
 
@@ -20,5 +19,19 @@ public class Search {
         SearchFiles searcher = new SearchFiles(condition);
         Files.walkFileTree(root, searcher);
         return searcher.getPaths();
+    }
+
+    private static String[] validateData(String[] args) {
+        if (args.length != 2) {
+            throw new IllegalArgumentException("Root folder is null. Usage java -jar search.jar.");
+        }
+        Path start = Paths.get(args[0]);
+        if (!start.toFile().exists()) {
+            throw new IllegalArgumentException(String.format("Not exists %s", start.toFile().getAbsoluteFile()));
+        }
+        if (!start.toFile().isDirectory()) {
+            throw new IllegalArgumentException(String.format("Not directory %s", start.toFile().getAbsoluteFile()));
+        }
+        return args;
     }
 }
