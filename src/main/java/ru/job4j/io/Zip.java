@@ -21,7 +21,7 @@ public class Zip {
         }
     }
 
-    public static ArgsName zipValidation(String[] args) {
+    public static ArgsName zipValidation(String[] args) throws IllegalArgumentException {
         if (args.length < 3) {
             throw new IllegalArgumentException("Здесь должно быть не меньше 3 элементов");
         }
