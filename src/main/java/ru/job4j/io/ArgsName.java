@@ -16,15 +16,15 @@ public class ArgsName {
 
     private void parse(String[] args) {
         Arrays.stream(args)
-                .peek(s -> {
-                    if ((s.endsWith("=") && s.split("=").length == 1)
+                .filter(s -> {
+                    if ((s.endsWith("=") && ((s.indexOf("=") == s.length() - 1)
                             || !s.contains("=")
                             || !s.startsWith("-")
-                            || s.startsWith("-=")) {
+                            || s.startsWith("-=")))) {
                         throw new IllegalArgumentException("The argument does not match the pattern \"key=value\"");
                     }
+                    return true;
                 })
-                .filter(s -> s.contains("="))
                 .map(s -> s.split("=", 2))
                 .forEach(strings -> values.put(strings[0].substring(1), strings[1]));
     }

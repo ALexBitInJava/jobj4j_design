@@ -1,7 +1,9 @@
 package ru.job4j.io;
 
+import org.assertj.core.api.AbstractThrowableAssert;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ArgsNameTest {
     @Test
@@ -32,5 +34,23 @@ class ArgsNameTest {
     void whenWrongSomeArgument() {
         assertThatThrownBy(() -> ArgsName.of(new String[]{}))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void whenGetNotExistKeyAndValue() {
+        assertThatThrownBy(() -> ArgsName.of(new String[] {"-="}))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void whenGetNotExistKey() {
+        assertThatThrownBy(() -> ArgsName.of(new String[] {"-Xmx:512"}))
+                .isInstanceOf(ArrayIndexOutOfBoundsException.class);
+    }
+
+    @Test
+    public void whenWrongSomeArgument2() {
+        assertThatThrownBy(() -> ArgsName.of(new String[]{"","Xmx=512"}))
+                .isInstanceOf(StringIndexOutOfBoundsException.class);
     }
 }
