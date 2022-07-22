@@ -44,12 +44,12 @@ class ArgsNameTest {
     @Test
     public void whenGetNotExistKey() {
         assertThatThrownBy(() -> ArgsName.of(new String[] {"-Xmx:512"}))
-                .isInstanceOf(ArrayIndexOutOfBoundsException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     public void whenWrongSomeArgument2() {
         assertThatThrownBy(() -> ArgsName.of(new String[]{"", "Xmx=512"}))
-                .isInstanceOf(StringIndexOutOfBoundsException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

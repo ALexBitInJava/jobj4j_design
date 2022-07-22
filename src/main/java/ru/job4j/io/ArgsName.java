@@ -17,10 +17,9 @@ public class ArgsName {
     private void parse(String[] args) {
         Arrays.stream(args)
                 .filter(s -> {
-                    if ((s.endsWith("=") && ((s.indexOf("=") == s.length() - 1)
-                            || !s.contains("=")
+                    if ((!s.contains("=") || (s.indexOf("=") == s.length() - 1)
                             || !s.startsWith("-")
-                            || s.startsWith("-=")))) {
+                            || s.startsWith("-="))) {
                         throw new IllegalArgumentException("The argument does not match the pattern \"key=value\"");
                     }
                     return true;
