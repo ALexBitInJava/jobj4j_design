@@ -22,7 +22,6 @@ public class ConsoleChat {
         Scanner scanner = new Scanner(System.in);
         boolean abilityToSpeak = true;
         List<String> logDialog = new ArrayList<>();
-        List<String> botPhrases = readPhrases();
         String userPhrase = "";
         while (!OUT.equalsIgnoreCase(userPhrase)) {
             System.out.println("Слово за тобой, парень: ");
