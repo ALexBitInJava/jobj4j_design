@@ -24,16 +24,16 @@ public class ConsoleChat {
         List<String> logDialog = new ArrayList<>();
         List<String> botPhrases = readPhrases();
         String userPhrase = "";
-        while (!OUT.equals(userPhrase)) {
+        while (!OUT.equalsIgnoreCase(userPhrase)) {
             System.out.println("Слово за тобой, парень: ");
             userPhrase = scanner.nextLine();
             logDialog.add(userPhrase);
-            if (userPhrase.isBlank() || OUT.equals(userPhrase)) {
+            if (userPhrase.isBlank() || OUT.equalsIgnoreCase(userPhrase)) {
                 continue;
-            } else if (STOP.equals(userPhrase)) {
+            } else if (STOP.equalsIgnoreCase(userPhrase)) {
                 abilityToSpeak = false;
                 continue;
-            } else if (CONTINUE.equals(userPhrase)) {
+            } else if (CONTINUE.equalsIgnoreCase(userPhrase)) {
                 abilityToSpeak = true;
             }
 
