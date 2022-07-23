@@ -63,10 +63,10 @@ public class CSVReader {
         }
         Path path = Paths.get(ArgsName.of(args).get("path"));
         if (!path.toFile().exists()) {
-            throw new IllegalArgumentException("Not exist!");
+            throw new IllegalArgumentException("Not exist");
         }
-        if (!path.toFile().exists()) {
-            throw new IllegalArgumentException("Not exists!");
+        if (!path.toFile().isFile()) {
+            throw new IllegalArgumentException("Not file");
         }
         return args;
     }
