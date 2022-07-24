@@ -38,8 +38,12 @@ public class CSVReader {
         }
 
 
-        try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(argsName.get("out")))) {
-            out.write(data.getBytes(StandardCharsets.UTF_8));
+        if ("stdout".equals(argsName.get("out"))) {
+            System.out.println(data);
+        } else {
+            try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(argsName.get("out")))) {
+                out.write(data.getBytes(StandardCharsets.UTF_8));
+            }
         }
 
     }
