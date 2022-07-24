@@ -68,7 +68,7 @@ public class CSVReader {
     }
 
     public static void main(String[] args) throws Exception {
-        handle(ArgsName.of(args));
         validateCsv(args, ArgsName.of(args));
+        handle(ArgsName.of(args));
     }
 }
