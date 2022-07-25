@@ -7,10 +7,19 @@ public class UsageLog4j {
     private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
 
     public static void main(String[] args) {
-        LOG.trace("trace message");
-        LOG.debug("debug message");
-        LOG.info("info message");
-        LOG.warn("warn message");
-        LOG.error("error message");
+        String name = "Petr Arsentev";
+        int age = 33;
+        LOG.debug("User info name : {}, age : {}", name, age);
+
+        short s = 100;
+        byte b = 10;
+        long l = 100000L;
+        float f = 1000.3F;
+        double d = 124.32D;
+        char c = 'o';
+        boolean rsl = false;
+        int i = 10000;
+        LOG.debug("Info about primitive variables : s = {}, b = {}, l = {}, f = {}, d = {}, c = {}, rsl = {}, i = {} ",
+                s, b, l, f, d, c, rsl, i);
     }
 }
