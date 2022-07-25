@@ -16,12 +16,7 @@ public class EchoServer {
                     String reader = in.readLine();
                     if (reader.contains("?msg=Bye")) {
                         server.close();
-                    }  /* else if (reader.contains("msg=Exit")) {
-                        server.close();
-                    } else if (reader.contains("msg=Any")) {
-                        out.write("What?\r\n\r\n".getBytes());
                     }
-                    */
                     out.flush();
                 }
             }
