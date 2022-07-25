@@ -21,5 +21,11 @@ public class UsageLog4j {
         int i = 10000;
         LOG.debug("Info about primitive variables : s = {}, b = {}, l = {}, f = {}, d = {}, c = {}, rsl = {}, i = {} ",
                 s, b, l, f, d, c, rsl, i);
+
+        try {
+            throw new Exception("Not supported code");
+        } catch (Exception e) {
+            LOG.error("Exception in log example", e);
+        }
     }
 }
