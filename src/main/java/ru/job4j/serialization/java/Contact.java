@@ -59,7 +59,7 @@ public class Contact implements Serializable {
             System.out.println(contactFromFile);
             System.out.println(contact);
             char[] char1 = contact.toString().toCharArray();
-            char[] char2 = contact.toString().toCharArray();
+            char[] char2 = contactFromFile.toString().toCharArray();
             System.out.println(String.format("Contact соответствует contactFromFile? %b", Arrays.equals(char1, char2)));
         }
     }
