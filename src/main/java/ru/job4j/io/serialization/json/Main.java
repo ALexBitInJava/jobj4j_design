@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.json.JSONObject;
 
-
 public class Main {
     public static void main(String[] args) {
         final Person person1 = new Person(false, 30, new Contact("11 - 111"),

@@ -15,5 +15,4 @@ public class Contact {
     public String toString() {
         return "Contact{" + "phone='" + phone + '\'' + '}';
     }
-
 }

@@ -44,4 +44,5 @@ public class Person2 {
                 + '\'' + ", statuses=" + Arrays.toString(property)
                 + '}';
     }
+
 }
