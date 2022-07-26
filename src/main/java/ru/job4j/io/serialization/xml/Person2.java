@@ -1,13 +1,14 @@
-package ru.job4j.serialization.json;
+package ru.job4j.io.serialization.xml;
+
 
 import java.util.Arrays;
 
 public class Person2 {
-    private final boolean sex;
-    private final int age;
-    private final Contact contact;
-    private final String name;
-    private final String[] property;
+    private boolean sex;
+    private int age;
+    private Contact contact;
+    private String name;
+    private String[] property;
 
     public Person2(boolean sex, int age, Contact contact, String name, String[] property) {
         this.sex = sex;
