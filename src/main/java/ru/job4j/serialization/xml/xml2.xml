@@ -1,0 +1,10 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<person2 sex="true" age="27">
+    <contact phone="88-999"/>
+    <name name="Bob"/>
+    <properties>
+        <property>Car</property>
+        <property>House</property>
+        <property>Flat</property>
+    </properties>
+</person2>
