@@ -17,6 +17,26 @@ public class Person2 {
         this.property = property;
     }
 
+    public boolean isSex() {
+        return sex;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String[] getProperty() {
+        return property;
+    }
+
     @Override
     public String toString() {
         return "Person2{" + "sex=" + sex + ", age=" + age

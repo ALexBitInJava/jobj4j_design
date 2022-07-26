@@ -2,6 +2,8 @@ package ru.job4j.io.serialization.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.json.JSONObject;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -41,5 +43,14 @@ public class Main {
                 + "}";
         final Person2 personMod2 = gson2.fromJson(personJson2, Person2.class);
         System.out.println(personMod2);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("sex", person2.isSex());
+        jsonObject.put("key", person2.getAge());
+        jsonObject.put("contact", person2.getContact());
+        jsonObject.put("name", person2.getName());
+        jsonObject.put("property", person2.getProperty());
+        System.out.println(jsonObject);
+        System.out.println(new JSONObject(personJson2));
     }
 }
