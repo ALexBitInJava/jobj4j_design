@@ -1,10 +1,13 @@
-0:0:0:0:0:0:0:1 - - [19/Feb/2020:15:21:18 +0300] "GET /items/ajax.html HTTP/1.1" 404 1113
-0:0:0:0:0:0:0:1 - - [19/Feb/2020:15:21:23 +0300] "GET /job4j.ru/profile HTTP/1.1" 302 -
-0:0:0:0:0:0:0:1 - - [19/Feb/2020:15:21:23 +0300] "GET /job4j.ru/profile/ HTTP/1.1" 404 1110
-0:0:0:0:0:0:0:1 - - [19/Feb/2020:15:21:34 +0300] "GET /job4j.ru/profileNew/ HTTP/1.1" 404 -
-0:0:0:0:0:0:0:1 - - [19/Feb/2020:15:21:48 +0300] "GET / HTTP/1.1" 200 11488
-0:0:0:0:0:0:0:1 - - [19/Feb/2020:15:21:49 +0300] "GET /404.png HTTP/1.1" 200 5103
-0:0:0:0:0:0:0:1 - - [19/Feb/2020:15:21:49 +0300] "GET /tomcat.css HTTP/1.1" 200 5931
-0:0:0:0:0:0:0:1 - - [19/Feb/2020:15:21:49 +0300] "GET /bg-nav.png HTTP/1.1" 200 1404
-0:0:0:0:0:0:0:1 - - [19/Feb/2020:15:21:49 +0300] "GET /bg-button.png HTTP/1.1" 200 713
-0:0:0:0:0:0:0:1 - - [19/Feb/2020:15:21:49 +0300] "GET /bg-middle.png HTTP/1.1" 200 4048
+C:\projects\job4j_design\.idea\checkstyleidea-libs\readme.txt
+C:\projects\job4j_design\404.txt
+C:\projects\job4j_design\data\file1.txt
+C:\projects\job4j_design\even.txt
+C:\projects\job4j_design\file1.txt
+C:\projects\job4j_design\input.txt
+C:\projects\job4j_design\log.txt
+C:\projects\job4j_design\result.txt
+C:\projects\job4j_design\src\data\botAnswers.txt
+C:\projects\job4j_design\src\data\chatLog.txt
+C:\projects\job4j_design\src\data\text.txt
+C:\projects\job4j_design\src\main\java\ru\job4j\io\duplicates\file1.txt
+C:\projects\job4j_design\target\surefire-reports\ru.job4j.AppTest.txt
