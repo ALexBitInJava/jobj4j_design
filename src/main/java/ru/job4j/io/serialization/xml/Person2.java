@@ -23,8 +23,7 @@ public class Person2 {
     private Contact contact;
     @XmlAttribute
     private String name;
-    @XmlElementWrapper(name = "property")
-    @XmlElement(name = "property")
+
     private String[] property;
 
     public Person2(boolean sex, int age, Contact contact, String name, String[] property) {
