@@ -19,8 +19,6 @@ public class Person {
 
     private Contact contact;
 
-    @XmlElement(name = "statuses")
-    @XmlAttribute(name = "status")
     private String[] statuses;
 
     public Person() { }
