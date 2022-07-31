@@ -1,0 +1,12 @@
+create table separately(
+id serial primary key,
+name text,
+money money,
+account_number integer);
+select * from separately;
+insert into separately (name, money, account_number)
+values('Alex','100','987654');
+select * from separately;
+update separately set name = 'Bob';
+select * from separately;
+delete from separately;
