@@ -4,10 +4,10 @@ id serial primary key,
 
 create table familyName (
 id serial primary key,
-familyMember text,
+name text,
 familyName_id int references surnameTable(id));
 
-insert into familyMembers(role) values ('Jankins');
+insert into surnameTable(surname) values ('Jankins');
 
 insert into familyName (name) values('Alex', 1);
 insert into familyName (name) values('Juliana', 1);
