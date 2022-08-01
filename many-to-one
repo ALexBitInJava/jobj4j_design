@@ -1,0 +1,18 @@
+create table familyMembers (
+id serial primary key,
+    role text
+);
+
+create table familyName (
+id serial primary key,
+name text,
+familyMembers_id int references familyMembers(id));
+
+insert into familyMembers(role) values ('husband');
+insert into familyMembers(role) values ('wife');
+
+insert into familyName (name) values('Alex');
+insert into familyName (name) values('Juliana');
+
+select * from familyName;
+select * from familyMembers where id in (select id from familyName);
