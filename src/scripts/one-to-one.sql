@@ -1,4 +1,4 @@
-create table rubleBankAccountVTB (
+create table rubleBankAccountVTB(
 id serial primary key,
 account int);
 
