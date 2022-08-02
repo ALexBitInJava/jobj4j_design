@@ -16,7 +16,7 @@ insert into fauna(name, avg_age, discovery_date) values ('turtle', 10500, null);
 insert into fauna(name, avg_age, discovery_date) values ('anaconda', 100, null);
 insert into fauna(name, avg_age, discovery_date) values ('piranha', 50000, '1970-01-01');
 
-select * from fauna where name like '%fish%' or name like 'fish%' or name like '%fish';
+select * from fauna where name like '%fish%';
 select * from fauna where avg_age > 10000 and avg_age < 21000;
 select  * from fauna where discovery_date is null;
 select * from fauna where discovery_date < '1950-01-01';
