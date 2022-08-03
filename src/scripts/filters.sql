@@ -50,8 +50,8 @@ where t.name like '%СЫР%' or t.name like '%МОЛОКО%';
 
 select t.name as Тип, sum(p.count) as Количество from product as p join type as t on
 p.type_id = t.id
-where t.name = 'СЫР'
-group by t.name;
+group by t.name
+having sum(p.count) < 100;
 
 select t.name as Тип, p.name as Продукт from product as p join type as t on
 p.type_id = t.id
