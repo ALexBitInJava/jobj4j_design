@@ -44,9 +44,9 @@ select p.name, sum(p.count) from product as p
 group by p.name
 ;
 
-select product.name as "Имя продукта с типом СЫР и МОЛОКО"
-from product join type on type.id = product.type_id
-where type.name like '%СЫР%' or type.name like '%МОЛОКО%';
+select p.name as "Имя продукта с типом СЫР и МОЛОКО"
+from product as p join type as t on t.id = p.type_id
+where t.name like '%СЫР%' or t.name like '%МОЛОКО%';
 
 select t.name as Тип, sum(p.count) as Количество from product as p join type as t on
 p.type_id = t.id
