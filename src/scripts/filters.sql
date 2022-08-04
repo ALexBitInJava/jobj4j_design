@@ -1,61 +1,63 @@
-create table product(
+create table type (
 id serial primary key,
-name varchar(256), type_id int references type(id),
-expired_date boolean, price int);
+	name VARCHAR(50)
+);
 
-create table type(
+create table product (
 id serial primary key,
-name varchar(256));
+	name VARCHAR(50),
+	type_id INT references type(id),
+	expired_date date,
+	price INT
+);
 
-alter table product add column count int;
+insert into type(name) values ('РЎР«Р '), ('РњСЏСЃРѕ'), ('РЎР»Р°РґРєРѕРµ'), ('Р’РѕРґР°');
+insert into type(name) values ('РњРћР›РћРљРћ');
 
-insert into type(name) values ('СЫР'), ('Мясо'), ('Сладкое'), ('Вода');
-insert into type(name) values ('МОЛОКО');
+insert into product(name, type_id, expired_date, price)
+values ('Р“Р°СѓРґР°', 1, '2022-07-05', 500), ('РњР°Р°СЃРґР°Рј', 1, '2022-12-05', 700),('РџРѕС€РµС…РѕРЅСЃРєРёР№', 1, '2022-08-04', 650),
+('Р›РёРїРµС†РєРѕРµ', 3, '2022-06-10' , 60),('РњСЂР°РјРѕСЂРЅРѕРµ', 3, '2022-10-05' , 50),('РљРѕСЂРѕРІРєР° РёР· РљРѕСЂРµРЅРѕРІРєРё', 3, '2022-11-05' , 90),
+('РљРѕСЂРѕРІРєР° РёР· РљРѕСЂРµРЅРѕРІРєРё', 3, '2022-09-15' , 90),('РђР»РµРєСЃРµРµРІСЃРєРѕРµ', 5, '2022-08-17' , 90),('РђР»РµРєСЃРµРµРІСЃРєРѕРµ', 5, '2022-09-20' , 90),
+('Р¤РёР»Рµ РёРЅРґРµР№РєРё', 2, '2022-03-28' , 340),('Р¤РёР»Рµ РёРЅРґРµР№РєРё', 2, '2022-05-11' , 340),
+('Р¤РёР»Рµ РєСѓСЂРёС†С‹', 2, '2022-12-02' , 310),('Р¤РёР»Рµ РёРЅРґРµР№РєРё', 2, '2022-11-24' , 340);
 
-insert into product(name, type_id, expired_date, price, count)
-values ('Гауда', 1, true, 500, 2), ('Маасдам', 1, true, 700, 4),('Пошехонский', 1, false , 650, 6),
-('Липецкое', 3, false , 60, 20),('Мраморное', 3, false , 50, 30),('Коровка из Кореновки', 3, true , 90, 4),
-('Коровка из Кореновки', 3, false , 90, 40),('Алексеевское', 5, false , 90, 40),('Алексеевское', 5, true , 90, 3),
-('Филе индейки', 2, true , 340, 5),('Филе индейки', 2, false , 340, 15),
-('Филе курицы', 2, true , 310, 2),('Филе индейки', 2, false , 340, 17);
+insert into product(name, type_id, expired_date, price)
+values ('РњР°Р№СЃРєР°СЏ С…СЂСѓСЃС‚Р°Р»СЊРЅР°СЏ', 4, '2022-10-10' , 40), ('Р§РµСЂРЅРѕРіРѕР»РѕРІРєР°', 4, '2022-08-08' , 130),
+('РљРѕРєР° - РєРѕР»Р°', 3, '2022-07-07' , 150),('РџРµРїСЃРё', 4, '2022-09-09' , 150);
 
-insert into product(name, type_id, expired_date, price, count)
-values ('Майская хрустальная', 4, false , 40, 20), ('Черноголовка', 4, false , 130, 10),
-('Кока - кола', 3, false , 150, 10),('Пепси', 4, false , 150, 20);
-
-select product.name as "Имя продукта с типом СЫР"
+select product.name as "РРјСЏ РїСЂРѕРґСѓРєС‚Р° СЃ С‚РёРїРѕРј РЎР«Р "
 from product join type on type.id = product.type_id
-where type.name like '%СЫР%';
+where type.name like '%РЎР«Р %';
 
-select product.name as "Имя продукта с мороженое"
+select product.name as "РРјСЏ РїСЂРѕРґСѓРєС‚Р° СЃ РјРѕСЂРѕР¶РµРЅРѕРµ"
 from product join type on type.id = product.type_id
-where product.name like '%мороженое%'
+where product.name like '%РјРѕСЂРѕР¶РµРЅРѕРµ%'
 group by product.name;
 
-select product.name as "Имя продукта с истекшим сроком годности"
+select product.name as "РРјСЏ РїСЂРѕРґСѓРєС‚Р° СЃ РёСЃС‚РµРєС€РёРј СЃСЂРѕРєРѕРј РіРѕРґРЅРѕСЃС‚Рё"
 from product join type on type.id = product.type_id
-where product.expired_date = true;
+where expired_date < current_date
+group by product.name;
 
-select p.name  as "Самый дорогой продукт" , p.price as "И его цена"
+select p.name  as "РЎР°РјС‹Р№ РґРѕСЂРѕРіРѕР№ РїСЂРѕРґСѓРєС‚" , p.price as "Р РµРіРѕ С†РµРЅР°"
 from product as p
 where p.price = (select max(price) from product);
 
-select p.name, sum(p.count) from product as p
-group by p.name
+select t.name, count(p.name) from type as t
+join product as p on p.type_id = t.id
+group by t.name
 ;
 
-select p.name as "Имя продукта с типом СЫР и МОЛОКО"
+select p.name as "РРјСЏ РїСЂРѕРґСѓРєС‚Р° СЃ С‚РёРїРѕРј РЎР«Р  Рё РњРћР›РћРљРћ"
 from product as p join type as t on t.id = p.type_id
-where t.name like '%СЫР%' or t.name like '%МОЛОКО%';
+where t.name like '%РЎР«Р %' or t.name like '%РњРћР›РћРљРћ%';
 
-select t.name as Тип, sum(p.count) as Количество from product as p join type as t on
+select t.name as РўРёРї, sum(p.count) as РљРѕР»РёС‡РµСЃС‚РІРѕ from product as p join type as t on
 p.type_id = t.id
 group by t.name
 having sum(p.count) < 100;
 
-select t.name as Тип, p.name as Продукт from product as p join type as t on
+select t.name as РўРёРї, p.name as РџСЂРѕРґСѓРєС‚ from product as p
+join type as t on
 p.type_id = t.id
-group by t.name, p.name
 ;
-
-select * from product join type on product.type_id = type.id;

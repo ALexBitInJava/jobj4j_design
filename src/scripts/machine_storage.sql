@@ -59,7 +59,7 @@ values ('Audi', 1, 1, 1),('Acura', 2, 2, 2),('BMW', 3, 3, 3),('Chevrolet', 4, 4,
 ('Subaru', 1, 5, 1),('Suzuki', 2, 6, 2),('Toyota', 3, 8, 3),('Tesla', 8, 7, 4),
 ('Volvo', 4, 1, 5),('Volkswagen', 5, 2, 1),('Haval', 6, 3, 2),('Exeed', 7, 4, 3);
 
-select c.name Марка, e.name Двигатель, t.name Трансмиссия from cars as c
+select c.name РњР°СЂРєР°, e.name Р”РІРёРіР°С‚РµР»СЊ, t.name РўСЂР°РЅСЃРјРёСЃСЃРёСЏ from cars as c
 left join car_bodies as b on c.body_id = b.id
 left join car_engines as e on c.engine_id = e.id
 left join car_transmissions as t on c.transmission_id = t.id;
