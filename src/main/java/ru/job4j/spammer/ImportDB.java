@@ -1,6 +1,9 @@
 package ru.job4j.spammer;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,11 +25,19 @@ public class ImportDB {
     public List<User> load() throws IOException {
         List<User> users = new ArrayList<>();
         try (BufferedReader rd = new BufferedReader(new FileReader(dump))) {
-            rd.lines().
-                    map(s -> s.split(";")).
-                    forEach(strings -> users.add(new User(strings[0], strings[1])));
+            while (rd.ready()) {
+                String line = rd.readLine();
+                if (line.length() > 0) {
+                    String[] split = line.split(";", 2);
+                    if (split.length != 2 || line.startsWith(";")
+                            || split[0].isBlank() || split[1].isBlank()) {
+                        throw new IllegalArgumentException("Incorrect format");
+                    }
+                    users.add(new User(split[0], split[1].replace(";", " ")));
+                }
+            }
+            return users;
         }
-        return users;
     }
 
     public void save(List<User> users) throws ClassNotFoundException, SQLException {
@@ -38,7 +49,7 @@ public class ImportDB {
         )) {
             for (User user : users) {
                 try (PreparedStatement ps = cnt.prepareStatement(
-                        "insert into users(name, email) values(?,?)")) {
+                        "insert into users(name, email) values (?, ?);")) {
                     ps.setString(1, user.name);
                     ps.setString(2, user.email);
                     ps.execute();
@@ -48,8 +59,8 @@ public class ImportDB {
     }
 
     private static class User {
-        String name;
-        String email;
+        private String name;
+        private String email;
 
         public User(String name, String email) {
             this.name = name;
@@ -57,11 +68,10 @@ public class ImportDB {
         }
     }
 
-
     public static void main(String[] args) throws Exception {
         Properties cfg = new Properties();
-        try (InputStream in = ImportDB.class.getClassLoader().
-                getResourceAsStream("app.properties")) {
+        try (InputStream in = ImportDB.class.getClassLoader()
+                .getResourceAsStream("app.properties")) {
             cfg.load(in);
         }
         ImportDB db = new ImportDB(cfg, "./dump.txt");
