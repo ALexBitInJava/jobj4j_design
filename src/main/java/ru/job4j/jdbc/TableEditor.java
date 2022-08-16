@@ -22,44 +22,39 @@ public class TableEditor implements AutoCloseable {
                 properties.getProperty("login"), properties.getProperty("password"));
     }
 
-    public void createTable(String tableName) throws SQLException {
+    private void separateMethod(String s) throws SQLException {
         try (Statement statement = connection.createStatement()) {
-            String sql = String.format("create table if not exists %s(%s);",
-                    tableName, "id serial primary key");
-            statement.execute(sql);
-
+            statement.execute(s);
         }
+    }
+
+    public void createTable(String tableName) throws SQLException {
+        String sql = String.format("create table if not exists %s(%s);",
+                tableName, "id serial primary key");
+        separateMethod(sql);
     }
 
     public void dropTable(String tableName) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format("drop table %s", tableName);
-            statement.execute(sql);
-        }
+        String sql = String.format("drop table %s", tableName);
+        separateMethod(sql);
     }
 
     public void addColumn(String tableName, String columnName, String type) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format("alter table %s add column %s %s",
-                    tableName, columnName, type);
-            statement.execute(sql);
-        }
+        String sql = String.format("alter table %s add column %s %s",
+                tableName, columnName, type);
+        separateMethod(sql);
     }
 
     public void dropColumn(String tableName, String columnName) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format("alter table %s drop column %s",
-                    tableName, columnName);
-            statement.execute(sql);
-        }
+        String sql = String.format("alter table %s drop column %s",
+            tableName, columnName);
+        separateMethod(sql);
     }
 
     public void renameColumn(String tableName, String columnName, String newColumnName) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format("alter table %s rename column %s to %s",
-                    tableName, columnName, newColumnName);
-            statement.execute(sql);
-        }
+        String sql = String.format("alter table %s rename column %s to %s",
+            tableName, columnName, newColumnName);
+        separateMethod(sql);
     }
 
     public static String getTableScheme(Connection connection, String tableName) throws Exception {
